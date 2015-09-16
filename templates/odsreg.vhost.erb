@@ -1,0 +1,28 @@
+<VirtualHost *:80>
+  ServerName <%= scope.lookupvar("odsreg::vhost_name") %>
+
+  WSGIScriptAlias / /var/www/odsreg/django.wsgi
+  Alias /media/ /usr/local/odsreg/cfp/static/
+  Alias /static/admin/ /usr/share/pyshared/django/contrib/admin/media/
+
+  <Directory /usr/share/pyshared/django/contrib/admin/media>
+     Order deny,allow
+     Allow from all
+  </Directory>
+
+  <Directory /usr/local/odsreg/cfp/static/>
+     Order deny,allow
+     Allow from all
+  </Directory>
+
+  <Directory /var/www/odsreg>
+     Order deny,allow
+     Allow from all
+  </Directory>
+
+  ErrorLog /var/log/<%= scope.lookupvar("httpd::params::apache_name") %>/odsreg_error.log
+  LogLevel warn
+  CustomLog /var/log/<%= scope.lookupvar("httpd::params::apache_name") %>/odsreg_access.log combined
+  ServerSignature Off
+
+</VirtualHost>

@@ -12,6 +12,7 @@ class odsreg(
 ) {
 
   include ::httpd
+  include ::httpd::mod::wsgi
   include ::pip
 
   package { 'django':
@@ -40,6 +41,12 @@ class odsreg(
     ensure => present,
   }
 
+  # for the local wsgi app
+  file { '/var/www/odsreg':
+    ensure  => directory,
+    mode    => '0755',
+  }
+
   # for our data storage
   file { '/var/lib/odsreg':
     ensure  => directory,
@@ -51,14 +58,18 @@ class odsreg(
 
   # a plain git checkout
   vcsrepo { '/opt/odsreg':
-    ensure   => present,
+    ensure   => latest,
     provider => git,
     revision => 'master',
     source   => 'https://git.openstack.org/openstack-infra/odsreg',
   }
 
-  # "install" a copy of it
   file { '/usr/local/odsreg':
+    ensure    => directory,
+  }
+
+  # "install" a copy of it
+  file { '/usr/local/odsreg/odsreg':
     ensure    => directory,
     owner     => 'root',
     group     => 'root',
@@ -85,6 +96,21 @@ class odsreg(
       File['/usr/local/odsreg/local_settings.py'],
       File['/var/lib/odsreg'],
     ],
+  }
+
+  file { '/var/www/odsreg/django.wsgi':
+    ensure  => present,
+    source  => 'puppet:///modules/odsreg/django.wsgi',
+    mode    => '0555',
+    owner   => 'root',
+    group   => 'root',
+  }
+
+  ::httpd::vhost { $vhost_name:
+    port     => 80,
+    priority => '50',
+    docroot  => 'MEANINGLESS_ARGUMENT',
+    template => 'odsreg/odsreg.vhost.erb',
   }
 
 }
