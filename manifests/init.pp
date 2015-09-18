@@ -49,11 +49,9 @@ class odsreg(
 
   # for our data storage
   file { '/var/lib/odsreg':
-    ensure  => directory,
-    mode    => '0755',
-    owner   => 'odsreg',
-    group   => 'odsreg',
-    require => User['odsreg'],
+    ensure => directory,
+    mode   => '0755',
+    owner  => 'www-data',
   }
 
   # a plain git checkout
@@ -87,7 +85,7 @@ class odsreg(
   }
 
   exec { 'odsreg_sync_db':
-    user    => 'odsreg',
+    user    => 'www-data',
     command => 'python /usr/local/odsreg/odsreg/manage.py syncdb --noinput',
     cwd     => '/usr/local/odsreg',
     path    => '/bin:/usr/bin',
