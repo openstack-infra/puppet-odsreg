@@ -88,7 +88,7 @@ class odsreg(
 
   exec { 'odsreg_sync_db':
     user    => 'odsreg',
-    command => 'python /usr/local/odsreg/manage.py syncdb --noinput',
+    command => 'python /usr/local/odsreg/odsreg/manage.py syncdb --noinput',
     cwd     => '/usr/local/odsreg',
     path    => '/bin:/usr/bin',
     onlyif  => 'test ! -f /var/lib/odsreg/summit.db',
