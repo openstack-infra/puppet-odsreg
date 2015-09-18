@@ -1,0 +1,8 @@
+Code-Review+2: James E. Blair <corvus@inaugust.com>
+Workflow+1: James E. Blair <corvus@inaugust.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Fri, 18 Sep 2015 05:04:42 +0000
+Reviewed-on: https://review.openstack.org/225005
+Project: openstack-infra/puppet-odsreg
+Branch: refs/heads/master
