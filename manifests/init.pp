@@ -17,15 +17,15 @@ class odsreg(
 
   package { 'django':
     ensure   => '1.4',
-    provider => 'pip',
+    provider => openstack_pip,
   }
   package { 'python-openid':
     ensure   => present,
-    provider => 'pip',
+    provider => openstack_pip,
   }
   package { 'django-openid-auth':
     ensure   => present,
-    provider => 'pip',
+    provider => openstack_pip,
   }
 
   user { 'odsreg':
